@@ -1,5 +1,5 @@
 # What
-A personal startpage.
+A personal startpage, live here: https://ruanha.github.io/startpage/
 
 # How to use
 Set as default page so that it opens when opening a new tab.
