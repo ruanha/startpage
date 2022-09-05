@@ -1,126 +1,103 @@
-@import url('https://fonts.googleapis.com/css2?family=Short+Stack&display=swap');
+@import url("https://fonts.googleapis.com/css2?family=Short+Stack&display=swap");
 
 :root {
---background-color: white;
---text-color: #555555;
---placeholder-color: #999999;
---header-color: #111111;
---accent-color: orange;
+  --background-color: white;
+  --text-color: #555555;
+  --header-color: #111111;
+  --accent-color: orange;
 }
 
 body {
-    min-height: 100vh;
-    min-width: 100vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: var(--header-color);
-    letter-spacing: 1px;
-    margin: 0;
-    padding: 0;
-    background-color: var(--background-color);
+  min-height: 100vh;
+  min-width: 100vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: var(--header-color);
+  letter-spacing: 1px;
+  margin: 0;
+  padding: 0;
+  background-color: var(--background-color);
 }
 
 .doodle {
-    background-color: var(--background-color); /* override doodle.css */
+  background-color: var(--background-color); /* override doodle.css */
 }
- 
+
 h2 {
-     font-size: 1.1rem;
-     margin: 0 0 .5rem 0;
-     letter-spacing: 2px;
- }
+  font-size: 1.1rem;
+  margin: 0 0 0.5rem 0;
+  letter-spacing: 2px;
+}
 
 .center-container {
-    width: 90%;
-    max-width: 1000px;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
+  width: 90%;
+  max-width: 1000px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
 }
 
 .image-container {
-    width: 80%;
-    max-width: 350px;
-    margin-bottom: 3rem;
+  width: 80%;
+  max-width: 350px;
+  margin-bottom: 3rem;
 }
 
 .image {
-    width: 100%;
-    border-radius: 50%;
-    aspect-ratio: 1;
-    object-fit: cover;
+  width: 100%;
+  border-radius: 50%;
+  aspect-ratio: 1;
+  object-fit: cover;
 }
 
 #center-image {
-    border-width: 0px;
-}
-
-#search-form {
-    width: 100%;
-    max-width: 350px;
-    margin-bottom: 2rem;
-}
-
-#search-input {
-    width: 100%;
-    border-top-width: 0;    /* override doodle.css */
-    border-left-width: 0;   /* override doodle.css */
-    border-right-width: 0;  /* override doodle.css */
-    font-size: .9rem;
-    text-align: center;
-    outline: none;
-    background-color: var(--background-color);
-    color: var(--text-color);
-}
-
-#search-input::placeholder {
-    color: var(--placeholder-color);
+  border-width: 0px;
 }
 
 .links-container {
-    width: 100%;
-    display: flex;
-    flex-direction: row;
-    justify-content: center;
-    align-items: top;
-    flex-wrap: wrap;
+  width: 100%;
+  display: flex;
+  flex-direction: row;
+  justify-content: center;
+  align-items: top;
+  flex-wrap: wrap;
 }
 
 .links-group {
-    display: flex;
-    flex-direction: column;
-    justify-content: top;
-    align-items: center;
-    flex: 1 1 0px;
-    margin: 1em;
-    max-width: 180px;
+  display: flex;
+  flex-direction: column;
+  justify-content: top;
+  align-items: center;
+  flex: 1 1 0px;
+  margin: 1em;
+  max-width: 180px;
 }
 
 .links-list {
-    text-align: center;
-    list-style-type: none; /* Remove bullets */
-    padding: 0; /* Remove padding */
-    margin: 0; /* Remove margins */
+  text-align: center;
+  list-style-type: none; /* Remove bullets */
+  padding: 0; /* Remove padding */
+  margin: 0; /* Remove margins */
 }
 
 .links-list a {
-    text-decoration: none;
-    color: var(--text-color);
-    transition: ease all .3s;
+  text-decoration: none;
+  color: var(--text-color);
+  transition: ease all 0.3s;
 }
 
 /* override doodle.css */
 .links-list li a {
-    font-weight: 400;
-    font-size: 13px;
+  font-weight: 400;
+  font-size: 13px;
 }
 
-.links-list a:hover{
-    color: var(--accent-color);
+.links-list a:hover {
+  color: var(--accent-color);
 }
 
 .links-list li {
-    margin: 0.2rem 0;
+  margin: 0.2rem 0;
 }
