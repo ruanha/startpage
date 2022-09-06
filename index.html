@@ -52,14 +52,38 @@
       </div>
       <fieldset>
         <legend>Todo</legend>
-        <p>
-          <label>
-            <input type="text" placeholder="add item"></input>
-        </p>
+        <div>
+          <form onsubmit="addItem(event)">
+            <label>
+              <input 
+              id="todo__input" 
+              type="text" 
+              placeholder="add item" 
+              onsubmit="addItem()">
+            </input>
+          </form>
+        </div>
       </fieldset>
     </div>
   <script>
+    
+    const todoInput = document.getElementById("todo__input");
 
+    const addItem = (event) => {
+      event.preventDefault();
+      event.stopPropagation();
+      console.log('added item');
+      const todoList = localStorage.getItem("todoList");
+      if (todoList) {
+        const todoListArray = JSON.parse(todoList);
+        todoListArray.push(todoInput.value);
+        localStorage.setItem("todoList", JSON.stringify(todoListArray));
+      } else {
+        localStorage.setItem("todoList", JSON.stringify([todoInput.value]));
+      }
+      todoInput.value = "";
+      todoInput.blur();
+    };
   </script>
   </body>
 </html>
