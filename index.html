@@ -56,13 +56,26 @@
       </fieldset>
     </div>
 
-    <script>
-      //localStorage.clear();
+    <template id="todo-item-template">
+      <div class="todo-item">
+        <label>
+          <input type="checkbox" onchange="check()" />
+          <span>
+            <input
+              type="text"
+              class="todo-input"
+              onkeydown="handleKeyPress(event)"
+            />
+          </span>
+        </label>
+      </div>
+    </template>
 
+    <script>
       const initTodo = (event) => {
         const todoList = getTodoList();
         if (todoList.length === 0) {
-          createTodoItem("");
+          createTodoItem({ checked: false, text: "" });
           renderTodoList();
           focusOnLastItem();
         }
@@ -73,50 +86,66 @@
         const item =
           document.getElementsByClassName("todo-input")[todoList.length - 1];
         item.focus();
+
+        // Move the cursor to the end
+        const length = item.value.length;
+        item.setSelectionRange(length, length);
       };
 
-      const createTodoElement = (value, index) => {
-        const todoItem = document.createElement("div");
-        const label = document.createElement("label");
-        const checkbox = document.createElement("input");
-        const span = document.createElement("span");
+      const check = (event) => {};
 
-        const input = document.createElement("input");
-        input.type = "text";
-        input.value = value;
-        input.classList.add("todo-input");
-        input.addEventListener("keydown", (event) => {
-          if (event.key === "Enter") {
-            const index = event.target.getAttribute("data-index");
-            const value = event.target.value;
-            console.log(index, value);
-            updateTodoItem(index, value);
-            const todoList = getTodoList();
-            if (todoList[todoList.length - 1] !== "") {
-              createTodoItem("");
-            }
-            renderTodoList();
-            focusOnLastItem();
+      const handleKeyPress = (event) => {
+        if (event.key === "Enter") {
+          const index = event.target.getAttribute("data-index");
+          const value = event.target.value;
+
+          const checkbox = document.querySelector(
+            `input[data-index="${index}"]`
+          );
+
+          updateTodoItem(index, { checked: checkbox.checked, text: value });
+          const todoList = getTodoList();
+          if (todoList[todoList.length - 1].text !== "") {
+            createTodoItem({ checked: false, text: "" });
           }
-        });
-        input.addEventListener("keyup", (event) => {
-          if (event.key === "Backspace" && event.target.value === "") {
-            const index = event.target.getAttribute("data-index");
-            deleteTodoItem(index);
-            renderTodoList();
-            focusOnLastItem();
-          }
-        });
+          renderTodoList();
+          focusOnLastItem();
+        }
+
+        if (event.key === "Backspace" && event.target.value === "") {
+          event.preventDefault();
+          const index = event.target.getAttribute("data-index");
+          deleteTodoItem(index);
+          renderTodoList();
+          focusOnLastItem();
+        }
+      };
+
+      const createTodoElement = (item, index) => {
+        todoItemTemp = document.getElementById("todo-item-template");
+
+        /* input */
+        const input = todoItemTemp.content.querySelector(".todo-input");
+
         input.dataset.index = index;
+        input.value = item.text;
 
-        span.appendChild(input);
+        /* checkbox */
+        const checkbox = todoItemTemp.content.querySelector(
+          "input[type=checkbox]"
+        );
 
-        checkbox.type = "checkbox";
+        checkbox.addEventListener("change", (event) => {
+          const index = event.target.getAttribute("data-index");
+          const value = event.target.value;
+          const checked = event.target.checked;
 
-        label.appendChild(checkbox);
-        label.appendChild(span);
-        todoItem.appendChild(label);
-        return todoItem;
+          updateTodoItem(index, { checked: checked, text: value });
+        });
+        checkbox.dataset.index = index;
+        checkbox.checked = item.checked;
+
+        return todoItemTemp.content.querySelector("div").cloneNode(true);
       };
 
       const updateTodoItem = (index, value) => {
