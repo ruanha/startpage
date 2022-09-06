@@ -92,7 +92,13 @@
         item.setSelectionRange(length, length);
       };
 
-      const check = (event) => {};
+      const check = (event) => {
+        const index = event.target.getAttribute("data-index");
+        const value = event.target.value;
+        const checked = event.target.checked;
+
+        updateTodoItem(index, { checked: checked, text: value });
+      };
 
       const handleKeyPress = (event) => {
         if (event.key === "Enter") {
@@ -135,13 +141,6 @@
           "input[type=checkbox]"
         );
 
-        checkbox.addEventListener("change", (event) => {
-          const index = event.target.getAttribute("data-index");
-          const value = event.target.value;
-          const checked = event.target.checked;
-
-          updateTodoItem(index, { checked: checked, text: value });
-        });
         checkbox.dataset.index = index;
         checkbox.checked = item.checked;
 
