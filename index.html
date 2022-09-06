@@ -50,25 +50,32 @@
           </ul>
         </div>
       </div>
-      <fieldset id="todo-list" onclick="clickTodo(event)">
+      <fieldset onclick="initTodo(event)">
         <legend>Todo</legend>
+        <div id="todo-list"></div>
       </fieldset>
     </div>
 
     <script>
-      localStorage.clear();
+      //localStorage.clear();
 
-      const clickTodo = (event) => {
-        const todoList = JSON.parse(localStorage.getItem("todoList")) || [];
+      const initTodo = (event) => {
+        const todoList = getTodoList();
         if (todoList.length === 0) {
-          addToStorage("");
-          initiateTodoList();
-          const item = document.getElementsByClassName("todo-input")[0];
-          item.focus();
+          createTodoItem("");
+          renderTodoList();
+          focusOnLastItem();
         }
       };
 
-      const getTodoItem = (value) => {
+      const focusOnLastItem = () => {
+        const todoList = getTodoList();
+        const item =
+          document.getElementsByClassName("todo-input")[todoList.length - 1];
+        item.focus();
+      };
+
+      const createTodoElement = (value, index) => {
         const todoItem = document.createElement("div");
         const label = document.createElement("label");
         const checkbox = document.createElement("input");
@@ -78,6 +85,30 @@
         input.type = "text";
         input.value = value;
         input.classList.add("todo-input");
+        input.addEventListener("keydown", (event) => {
+          if (event.key === "Enter") {
+            const index = event.target.getAttribute("data-index");
+            const value = event.target.value;
+            console.log(index, value);
+            updateTodoItem(index, value);
+            const todoList = getTodoList();
+            if (todoList[todoList.length - 1] !== "") {
+              createTodoItem("");
+            }
+            renderTodoList();
+            focusOnLastItem();
+          }
+        });
+        input.addEventListener("keyup", (event) => {
+          if (event.key === "Backspace" && event.target.value === "") {
+            const index = event.target.getAttribute("data-index");
+            deleteTodoItem(index);
+            renderTodoList();
+            focusOnLastItem();
+          }
+        });
+        input.dataset.index = index;
+
         span.appendChild(input);
 
         checkbox.type = "checkbox";
@@ -88,38 +119,39 @@
         return todoItem;
       };
 
-      const initiateTodoList = () => {
+      const updateTodoItem = (index, value) => {
+        const todoList = getTodoList();
+        todoList[index] = value;
+        localStorage.setItem("todoList", JSON.stringify(todoList));
+      };
+
+      const createTodoItem = (value) => {
+        const todoList = getTodoList();
+        todoList.push(value);
+        localStorage.setItem("todoList", JSON.stringify(todoList));
+      };
+
+      const deleteTodoItem = (index) => {
+        const todoList = getTodoList();
+        todoList.splice(index, 1);
+        localStorage.setItem("todoList", JSON.stringify(todoList));
+      };
+
+      const getTodoList = () => {
         const todoList = JSON.parse(localStorage.getItem("todoList")) || [];
-        todoList.forEach((item) => {
-          todoItem = getTodoItem(item);
-          document.querySelector("#todo-list").appendChild(todoItem);
+        return todoList;
+      };
+
+      const renderTodoList = () => {
+        const todoList = JSON.parse(localStorage.getItem("todoList")) || [];
+        document.getElementById("todo-list").innerHTML = "";
+        todoList.forEach((item, index) => {
+          todoItem = createTodoElement(item, index);
+          document.getElementById("todo-list").appendChild(todoItem);
         });
       };
 
-      initiateTodoList();
-
-      const addToStorage = (item) => {
-        const todoList = localStorage.getItem("todoList");
-        const todoListArray = JSON.parse(todoList);
-
-        if (todoList) {
-          todoListArray.push(item);
-          localStorage.setItem("todoList", JSON.stringify(todoListArray));
-        } else {
-          localStorage.setItem("todoList", JSON.stringify([item]));
-        }
-      };
-
-      const addItem = (event) => {
-        const todoInput = document.getElementById("todo__input");
-        event.preventDefault();
-        event.stopPropagation();
-
-        addToStorage(todoInput.value);
-
-        todoInput.value = "";
-        todoInput.blur();
-      };
+      renderTodoList();
     </script>
   </body>
 </html>
