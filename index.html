@@ -50,40 +50,76 @@
           </ul>
         </div>
       </div>
-      <fieldset>
+      <fieldset id="todo-list" onclick="clickTodo(event)">
         <legend>Todo</legend>
-        <div>
-          <form onsubmit="addItem(event)">
-            <label>
-              <input 
-              id="todo__input" 
-              type="text" 
-              placeholder="add item" 
-              onsubmit="addItem()">
-            </input>
-          </form>
-        </div>
       </fieldset>
     </div>
-  <script>
-    
-    const todoInput = document.getElementById("todo__input");
 
-    const addItem = (event) => {
-      event.preventDefault();
-      event.stopPropagation();
-      console.log('added item');
-      const todoList = localStorage.getItem("todoList");
-      if (todoList) {
+    <script>
+      localStorage.clear();
+
+      const clickTodo = (event) => {
+        const todoList = JSON.parse(localStorage.getItem("todoList")) || [];
+        if (todoList.length === 0) {
+          addToStorage("");
+          initiateTodoList();
+          const item = document.getElementsByClassName("todo-input")[0];
+          item.focus();
+        }
+      };
+
+      const getTodoItem = (value) => {
+        const todoItem = document.createElement("div");
+        const label = document.createElement("label");
+        const checkbox = document.createElement("input");
+        const span = document.createElement("span");
+
+        const input = document.createElement("input");
+        input.type = "text";
+        input.value = value;
+        input.classList.add("todo-input");
+        span.appendChild(input);
+
+        checkbox.type = "checkbox";
+
+        label.appendChild(checkbox);
+        label.appendChild(span);
+        todoItem.appendChild(label);
+        return todoItem;
+      };
+
+      const initiateTodoList = () => {
+        const todoList = JSON.parse(localStorage.getItem("todoList")) || [];
+        todoList.forEach((item) => {
+          todoItem = getTodoItem(item);
+          document.querySelector("#todo-list").appendChild(todoItem);
+        });
+      };
+
+      initiateTodoList();
+
+      const addToStorage = (item) => {
+        const todoList = localStorage.getItem("todoList");
         const todoListArray = JSON.parse(todoList);
-        todoListArray.push(todoInput.value);
-        localStorage.setItem("todoList", JSON.stringify(todoListArray));
-      } else {
-        localStorage.setItem("todoList", JSON.stringify([todoInput.value]));
-      }
-      todoInput.value = "";
-      todoInput.blur();
-    };
-  </script>
+
+        if (todoList) {
+          todoListArray.push(item);
+          localStorage.setItem("todoList", JSON.stringify(todoListArray));
+        } else {
+          localStorage.setItem("todoList", JSON.stringify([item]));
+        }
+      };
+
+      const addItem = (event) => {
+        const todoInput = document.getElementById("todo__input");
+        event.preventDefault();
+        event.stopPropagation();
+
+        addToStorage(todoInput.value);
+
+        todoInput.value = "";
+        todoInput.blur();
+      };
+    </script>
   </body>
 </html>
