@@ -1,14 +1,16 @@
-const initTodo = (event) => {
-  const todoList = getTodoList();
+import todoApi from "./todo-api.js";
+
+const initTodo = () => {
+  const todoList = todoApi.getTodoList();
   if (todoList.length === 0) {
-    createTodoItem({ checked: false, text: "" });
+    todoApi.createTodoItem({ checked: false, text: "" });
     renderTodoList();
     focusOnLastItem();
   }
 };
 
 const focusOnLastItem = () => {
-  const todoList = getTodoList();
+  const todoList = todoApi.getTodoList();
   const item =
     document.getElementsByClassName("todo-input")[todoList.length - 1];
   item.focus();
@@ -23,7 +25,7 @@ const check = (event) => {
   const value = event.target.value;
   const checked = event.target.checked;
 
-  updateTodoItem(index, { checked: checked, text: value });
+  todoApi.updateTodoItem(index, { checked: checked, text: value });
 };
 
 const handleKeyPress = (event) => {
@@ -34,9 +36,9 @@ const handleKeyPress = (event) => {
     const checkbox = document.querySelector(`input[data-index="${index}"]`);
 
     updateTodoItemFromElement(event.target);
-    const todoList = getTodoList();
+    const todoList = todoApi.getTodoList();
     if (todoList[todoList.length - 1].text !== "") {
-      createTodoItem({ checked: false, text: "" });
+      todoApi.createTodoItem({ checked: false, text: "" });
     }
     renderTodoList();
     focusOnLastItem();
@@ -45,7 +47,7 @@ const handleKeyPress = (event) => {
   if (event.key === "Backspace" && event.target.value === "") {
     event.preventDefault();
     const index = event.target.getAttribute("data-index");
-    deleteTodoItem(index);
+    todoApi.deleteTodoItem(index);
     renderTodoList();
     focusOnLastItem();
   }
@@ -69,37 +71,14 @@ const createTodoElement = (item, index) => {
   return todoItemTemp.content.querySelector("div").cloneNode(true);
 };
 
-const updateTodoItem = (index, value) => {
-  const todoList = getTodoList();
-  todoList[index] = value;
-  localStorage.setItem("todoList", JSON.stringify(todoList));
-};
-
 const updateTodoItemFromElement = (element) => {
   const index = element.getAttribute("data-index");
   const checkbox = document.querySelector(`input[data-index="${index}"]`);
 
-  updateTodoItem(index, {
+  todoApi.updateTodoItem(index, {
     checked: checkbox.checked,
     text: element.value,
   });
-};
-
-const createTodoItem = (value) => {
-  const todoList = getTodoList();
-  todoList.push(value);
-  localStorage.setItem("todoList", JSON.stringify(todoList));
-};
-
-const deleteTodoItem = (index) => {
-  const todoList = getTodoList();
-  todoList.splice(index, 1);
-  localStorage.setItem("todoList", JSON.stringify(todoList));
-};
-
-const getTodoList = () => {
-  const todoList = JSON.parse(localStorage.getItem("todoList")) || [];
-  return todoList;
 };
 
 const renderTodoList = () => {
