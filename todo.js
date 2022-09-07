@@ -10,9 +10,10 @@ const initTodo = () => {
 };
 
 const focusOnLastItem = () => {
-  const todoList = todoApi.getTodoList();
   const item =
-    document.getElementsByClassName("todo-input")[todoList.length - 1];
+    document.querySelectorAll("input")[
+      document.querySelectorAll("input").length - 1
+    ];
   item.focus();
 
   // Move the cursor to the end
@@ -22,6 +23,7 @@ const focusOnLastItem = () => {
 
 const check = (event) => {
   const index = event.target.getAttribute("data-index");
+  const input = document.querySelector(`input[data-index="${index}"]`);
   const value = event.target.value;
   const checked = event.target.checked;
 
