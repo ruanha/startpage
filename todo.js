@@ -24,19 +24,15 @@ const focusOnLastItem = () => {
 const check = (event) => {
   const index = event.target.getAttribute("data-index");
   const input = document.querySelector(`[data-index="${index}"][type="text"]`);
-  const value = input.value;
-  const checked = event.target.checked;
 
-  todoApi.updateTodoItem(index, { checked: checked, text: value });
+  todoApi.updateTodoItem(index, {
+    checked: event.target.checked,
+    text: input.value,
+  });
 };
 
 const handleKeyPress = (event) => {
   if (event.key === "Enter") {
-    const index = event.target.getAttribute("data-index");
-    const value = event.target.value;
-
-    const checkbox = document.querySelector(`input[data-index="${index}"]`);
-
     updateTodoItemFromElement(event.target);
     const todoList = todoApi.getTodoList();
     if (todoList[todoList.length - 1].text !== "") {
