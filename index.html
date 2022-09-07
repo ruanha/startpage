@@ -65,6 +65,7 @@
               type="text"
               class="todo-input"
               onkeydown="handleKeyPress(event)"
+              onblur="updateTodoItemFromElement(event.target)"
             />
           </span>
         </label>
@@ -109,7 +110,7 @@
             `input[data-index="${index}"]`
           );
 
-          updateTodoItem(index, { checked: checkbox.checked, text: value });
+          updateTodoItemFromElement(event.target);
           const todoList = getTodoList();
           if (todoList[todoList.length - 1].text !== "") {
             createTodoItem({ checked: false, text: "" });
@@ -151,6 +152,16 @@
         const todoList = getTodoList();
         todoList[index] = value;
         localStorage.setItem("todoList", JSON.stringify(todoList));
+      };
+
+      const updateTodoItemFromElement = (element) => {
+        const index = element.getAttribute("data-index");
+        const checkbox = document.querySelector(`input[data-index="${index}"]`);
+
+        updateTodoItem(index, {
+          checked: checkbox.checked,
+          text: element.value,
+        });
       };
 
       const createTodoItem = (value) => {
