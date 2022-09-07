@@ -23,8 +23,8 @@ const focusOnLastItem = () => {
 
 const check = (event) => {
   const index = event.target.getAttribute("data-index");
-  const input = document.querySelector(`input[data-index="${index}"]`);
-  const value = event.target.value;
+  const input = document.querySelector(`[data-index="${index}"][type="text"]`);
+  const value = input.value;
   const checked = event.target.checked;
 
   todoApi.updateTodoItem(index, { checked: checked, text: value });
