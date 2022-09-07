@@ -49,6 +49,22 @@ const handleKeyPress = (event) => {
     renderTodoList();
     focusOnLastItem();
   }
+
+  if ((event.key === "ArrowDown" || event.key === "ArrowUp") && event.altKey) {
+    const direction = event.key === "ArrowDown" ? 1 : -1;
+    event.preventDefault();
+    const index = event.target.getAttribute("data-index");
+    const todoList = todoApi.getTodoList();
+    if (index < todoList.length - 1) {
+      const nextIndex = parseInt(index) + direction;
+      todoApi.switch(index, nextIndex);
+      renderTodoList();
+      const nextElement = document.querySelector(
+        `[data-index="${nextIndex}"][type="text"]`
+      );
+      nextElement.focus();
+    }
+  }
 };
 
 const createTodoElement = (item, index) => {

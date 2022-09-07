@@ -25,6 +25,14 @@ class TodoApi {
     return this.todos;
   };
 
+  switch(index1, index2) {
+    const todoList = this.getTodoList();
+    const temp = todoList[index1];
+    todoList[index1] = todoList[index2];
+    todoList[index2] = temp;
+    localStorage.setItem("todoList", JSON.stringify(todoList));
+  }
+
   initTodoList = () => JSON.parse(localStorage.getItem("todoList")) || [];
 }
 
