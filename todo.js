@@ -80,7 +80,7 @@ const updateTodoItemFromElement = (element) => {
 };
 
 const renderTodoList = () => {
-  const todoList = JSON.parse(localStorage.getItem("todoList")) || [];
+  const todoList = todoApi.getTodoList();
   document.getElementById("todo-list").innerHTML = "";
   todoList.forEach((item, index) => {
     const todoItem = createTodoElement(item, index);

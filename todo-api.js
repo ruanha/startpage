@@ -1,4 +1,8 @@
 class TodoApi {
+  constructor() {
+    this.todos = this.initTodoList();
+  }
+
   updateTodoItem = (index, value) => {
     const todoList = this.getTodoList();
     todoList[index] = value;
@@ -18,9 +22,10 @@ class TodoApi {
   };
 
   getTodoList = () => {
-    const todoList = JSON.parse(localStorage.getItem("todoList")) || [];
-    return todoList;
+    return this.todos;
   };
+
+  initTodoList = () => JSON.parse(localStorage.getItem("todoList")) || [];
 }
 
 const todoApi = new TodoApi();
