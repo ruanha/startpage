@@ -8,7 +8,9 @@ import NavigationGroups from "./components/NavigationGroups.vue";
     <TopImage />
   </header>
 
-  <main></main>
+  <main>
+    <NavigationGroups />
+  </main>
 </template>
 
 <style scoped>
