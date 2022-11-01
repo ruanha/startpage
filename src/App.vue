@@ -1,6 +1,7 @@
 <script setup lang="ts">
 import TopImage from "./components/TopImage.vue";
 import NavigationGroups from "./components/NavigationGroups.vue";
+import TodoList from "./components/todo/TodoList.vue";
 </script>
 
 <template>
@@ -10,6 +11,7 @@ import NavigationGroups from "./components/NavigationGroups.vue";
 
   <main>
     <NavigationGroups />
+    <TodoList />
   </main>
 </template>
 

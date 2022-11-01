@@ -30,9 +30,5 @@
         </ul>
       </div>
     </div>
-    <fieldset id="todo-fieldset">
-      <legend>Todo</legend>
-      <div id="todo-list"></div>
-    </fieldset>
   </div>
 </template>
